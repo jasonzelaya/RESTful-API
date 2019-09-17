@@ -32,23 +32,24 @@ const articlesSchema = mongoose.Schema({
 // Create model
 const Article = mongoose.model("Article", articlesSchema);
 
-// ----------------------------------------------------------------------------
+
+// --------------------------ALL ARTICLES---------------------------------------
 
 // Chainable route handler for "/articles"
 app.route("/articles")
   // GET handler
   .get(function(req, res){
-    // Find all of the documents in the Article collection
+    // Find all of the documents in the articles collection
     Article.find(function(err, foundArticles){
       // If there are no erros
       if(!err){
-        // Send all of the documents in the collection
+        // Send all of the documents in the collection to the client
         res.send(foundArticles);
+        // If an error occurred
       }else{
-        // Send the error message
+        // Send the error message to the client
         res.send(err);
       }
-
     });
   })
 
@@ -66,8 +67,9 @@ app.route("/articles")
       if(!err){
         // Send a success message
         res.send("Successfully added the article")
+        // If an error occurred
       }else{
-        // Send the error message
+        // Send the error message to the client
         res.send(err);
       }
     });
@@ -75,20 +77,40 @@ app.route("/articles")
 
   // DELETE handler for "/articles"
   .delete(function(req, res){
-    // Delete all of the documents in the collection and check for errors
+    // Delete all of the documents in the articles collection and check for errors
     Article.deleteMany(function(err){
       // If there are no errors
       if(!err){
-        // Send a success message
+        // Send a success message to the client
         res.send("Successfully deleted all of the documents");
+      // If an error occurred
       }else{
-        // Send the error message
+        // Send the error message to the client
         res.send(err);
       }
     });
   });
 
 
+// ---------------------------SPECIFIC ARTICLES---------------------------------
+
+// Chainable route handler for specific articles
+app.route("/articles/:articleParameter")
+  // GET HANDLER for the dynamic route
+  .get(function(req, res){
+    // Find one document in the articles collection that has a title matching the requested parameter
+    Article.findOne({title: req.params.articleParameter}, function(err, foundArticle){
+      // If a document with a matching title was found
+      if (foundArticle){
+        // Send the document to the client
+        res.send(foundArticle);
+      // If a document with a matching title was not found
+      }else{
+        // Send a message to the client that the document could not be found
+        res.send("An article with a matching title was not found.");
+      }
+    });
+  });
 
 
 
