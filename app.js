@@ -51,7 +51,7 @@ app.route("/articles")
 
     });
   })
-  
+
   // POST handler for ""/articles"
   .post(function(req, res) {
     // Create a new document
@@ -71,8 +71,22 @@ app.route("/articles")
         res.send(err);
       }
     });
-  });
+  })
 
+  // DELETE handler for "/articles"
+  .delete(function(req, res){
+    // Delete all of the documents in the collection and check for errors
+    Article.deleteMany(function(err){
+      // If there are no errors
+      if(!err){
+        // Send a success message
+        res.send("Successfully deleted all of the documents");
+      }else{
+        // Send the error message
+        res.send(err);
+      }
+    });
+  });
 
 
 
