@@ -50,7 +50,31 @@ app.route("/articles")
       }
 
     });
+  })
+  
+  // POST handler for ""/articles"
+  .post(function(req, res) {
+    // Create a new document
+    let newArticle = new Article({
+      title: req.body.title,
+      content: req.body.content
+    });
+
+    // Save the document if there aren't any errors
+    newArticle.save(function(err){
+      // If there are no errors
+      if(!err){
+        // Send a success message
+        res.send("Successfully added the article")
+      }else{
+        // Send the error message
+        res.send(err);
+      }
+    });
   });
+
+
+
 
 
 
