@@ -134,8 +134,31 @@ app.route("/articles/:articleParameter")
           res.send(err);
         }
       }
-    );
-  });
+    )
+  })
+
+    // PATCH handler for the dynamic route
+    .patch(function(req, res){
+      // Update a document from the articles collection using the following parameters
+      Article.update(
+        // The document to update whose title matches the requested parameter
+        {title: req.params.articleParameter},
+        // Update only the properties that are given new values
+        {$set: req.body},
+        // Check for errors
+        function(err){
+          // If there are no errors
+          if (!err){
+            // Send a success message
+            res.send("Successfully updated the document");
+          // If an error occurred
+          }else{
+            // Send the error message
+            res.send(err);
+          }
+        }
+      );
+    });
 
 
 
