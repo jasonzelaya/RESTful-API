@@ -32,19 +32,30 @@ const articlesSchema = mongoose.Schema({
 // Create model
 const Article = mongoose.model("Article", articlesSchema);
 
+// ----------------------------------------------------------------------------
+
+// Chainable route handler for "/articles"
+app.route("/articles")
+  // GET handler
+  .get(function(req, res){
+    // Find all of the documents in the Article collection
+    Article.find(function(err, foundArticles){
+      // If there are no erros
+      if(!err){
+        // Send all of the documents in the collection
+        res.send(foundArticles);
+      }else{
+        // Send the error message
+        res.send(err);
+      }
+
+    });
+  });
 
 
 
 
-
-
-
-
-
-
-
-
-// Start server
+// Start the server
 app.listen(3000, function(){
   console.log("Server is running on port 3000");
 });
