@@ -96,7 +96,7 @@ app.route("/articles")
 
 // Chainable route handler for specific articles
 app.route("/articles/:articleParameter")
-  // GET HANDLER for the dynamic route
+  // GET handler for the dynamic route
   .get(function(req, res){
     // Find one document in the articles collection that has a title matching the requested parameter
     Article.findOne({title: req.params.articleParameter}, function(err, foundArticle){
@@ -110,6 +110,31 @@ app.route("/articles/:articleParameter")
         res.send("An article with a matching title was not found.");
       }
     });
+  })
+
+  // PUT handler for the dynamic route
+  .put(function(req, res){
+     // Update the document from the articles collection using the following parameters
+    Article.update(
+      // The document to replace with a title that matches the requested parameter
+      {title: req.params.articleParameter},
+      // The document to replace the first parameter's document with
+      {title: req.body.title, content: req.body.title},
+      // Overwrite/replace the existing document
+      {overwrite: true},
+      // Check for errors
+      function(err){
+        // If there were no errors
+        if (!err){
+          // Send a success message to the client
+          res.send("Successfully updated the articles collection");
+        // If an error occurred
+        }else{
+          // Send the error message to the client
+          res.send(err);
+        }
+      }
+    );
   });
 
 
