@@ -149,12 +149,33 @@ app.route("/articles/:articleParameter")
         function(err){
           // If there are no errors
           if (!err){
-            // Send a success message
+            // Send a success message to the client
             res.send("Successfully updated the document");
           // If an error occurred
           }else{
-            // Send the error message
+            // Send the error message to the client
             res.send(err);
+          }
+        }
+      );
+    })
+
+    // DELETE handler for the dynamic route
+    .delete(function(req, res){
+      // Delete one document in the articles collection
+      Article.deleteOne(
+        // The document that has a title matching the requested parameter
+        {title: req.params.articleParameter},
+        // Check for errors
+        function(err){
+          // If there are no errors
+          if(!err){
+            // Send a success message to the client
+            res.send("Successfully deleted the document");
+          // If an error occurred
+          }else{
+            // Send the error message to the client
+            res.send(err)
           }
         }
       );
