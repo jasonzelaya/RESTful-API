@@ -14,7 +14,7 @@ app.set("view engine", ejs);
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/wikiDB", {
+mongoose.connect("mongodb://localhost:27017/articlesDB", {
   // Fix the URL string parser deprecation warning
  useNewUrlParser: true,
  // Fix Server Discovery and Monitoring Engine deprecation warning
